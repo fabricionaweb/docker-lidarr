@@ -7,8 +7,8 @@ WORKDIR /src
 FROM base AS source
 
 # get and extract source from git
-ARG VERSION
-ADD https://github.com/Lidarr/Lidarr.git#v$VERSION ./
+ARG BRANCH
+ADD https://github.com/Lidarr/Lidarr.git#$BRANCH ./
 
 # apply available patches
 RUN apk add --no-cache patch
