@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1-labs
-FROM public.ecr.aws/docker/library/alpine:3.20 AS base
+FROM public.ecr.aws/docker/library/alpine:3.21 AS base
 ENV TZ=UTC
 WORKDIR /src
 
@@ -8,7 +8,8 @@ FROM base AS source
 
 # get and extract source from git
 ARG VERSION
-ADD https://github.com/Lidarr/Lidarr.git#v$VERSION ./
+ADD https://github.com/Lidarr/Lidarr/archive/refs/tags/v$VERSION.tar.gz /tmp/source.tgz
+RUN tar --strip-components=1 -xf /tmp/source.tgz
 
 # apply available patches
 RUN apk add --no-cache patch
