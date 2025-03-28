@@ -42,7 +42,7 @@ ENV RUNTIME=linux-musl-x64
 FROM base-$TARGETARCH AS build-backend
 
 # dependencies
-RUN apk add --no-cache dotnet6-sdk
+RUN apk add --no-cache dotnet6-sdk --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
 
 # dotnet source
 COPY --from=source /src/.editorconfig ./
@@ -90,7 +90,8 @@ COPY --from=build-frontend /build /app/bin/UI
 COPY ./rootfs/. /
 
 # runtime dependencies
-RUN apk add --no-cache tzdata s6-overlay aspnetcore6-runtime sqlite-libs curl
+RUN apk add --no-cache tzdata s6-overlay sqlite-libs curl && \
+    apk add --no-cache aspnetcore6-runtime --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
 
 # run using s6-overlay
 ENTRYPOINT ["/init"]
